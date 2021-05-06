@@ -16,7 +16,7 @@ namespace App05MonoGame
     /// random coins and the enemy tries to catch the player.
     /// </summary>
     /// <authors>
-    /// Derek Peacock & Andrei Cruceru
+    /// Galimir Bozmarov and Max Roe
     /// </authors>
     public class App05Game : Game
     {
