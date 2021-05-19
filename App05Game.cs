@@ -41,9 +41,6 @@ namespace App05MonoGame
 
         private readonly CoinsController coinsController;
 
-        private PlayerSprite shipSprite;
-        private Sprite asteroidSprite;
-
         private AnimatedPlayer playerSprite;
         private AnimatedSprite enemySprite;
 
@@ -113,11 +110,6 @@ namespace App05MonoGame
 
             restartButton.click += RestartButton_click;
 
-            // suitable for asteroids type game
-
-            SetupSpaceShip();
-            SetupAsteroid();
-
             // animated sprites suitable for pacman type game
 
             SetupAnimatedPlayer();
@@ -135,51 +127,12 @@ namespace App05MonoGame
         }
 
         /// <summary>
-        /// This is a single image sprite that rotates
-        /// and move at a constant speed in a fixed direction
-        /// </summary>
-        private void SetupAsteroid()
-        {
-            Texture2D asteroid = Content.Load<Texture2D>(
-               "Actors/Stones2Filled_01");
-
-            asteroidSprite = new Sprite(asteroid, 1200, 500)
-            {
-                Direction = new Vector2(-1, 0),
-                Speed = 100,
-
-                Rotation = MathHelper.ToRadians(3),
-                RotationSpeed = 2f,
-            };
-
-    }
-
-        /// <summary>
-        /// This is a Sprite that can be controlled by a
-        /// player using Rotate Left = A, Rotate Right = D, 
-        /// Forward = Space
-        /// </summary>
-        private void SetupSpaceShip()
-        {
-            Texture2D ship = Content.Load<Texture2D>(
-               "Actors/GreenShip");
-
-            shipSprite = new PlayerSprite(ship, 200, 500)
-            {
-                Direction = new Vector2(1, 0),
-                Speed = 200,
-                DirectionControl = DirectionControl.Rotational
-            };
-    }
-
-
-        /// <summary>
         /// This is a Sprite with four animations for the four
         /// directions, up, down, left and right
         /// </summary>
         private void SetupAnimatedPlayer()
         {
-            Texture2D sheet4x3 = Content.Load<Texture2D>("Actors/rsc-sprite-sheet1");
+            Texture2D sheet4x3 = Content.Load<Texture2D>("Actors/Sasuke");
 
             AnimationController contoller = new AnimationController(graphicsDevice, sheet4x3, 4, 3);
 
@@ -247,22 +200,6 @@ namespace App05MonoGame
 
             restartButton.Update(gameTime);
 
-            // Update Asteroids
-
-            shipSprite.Update(gameTime);
-            asteroidSprite.Update(gameTime);
-
-            if (shipSprite.HasCollided(asteroidSprite) && shipSprite.IsAlive)
-            {
-                flameEffect.Play();
-
-                shipSprite.IsActive = false;
-                shipSprite.IsAlive = false;
-                shipSprite.IsVisible = false;
-            }
-
-            // Update Chase Game
-
             playerSprite.Update(gameTime);
             enemySprite.Update(gameTime);
 
@@ -293,11 +230,6 @@ namespace App05MonoGame
             spriteBatch.Draw(backgroundImage, Vector2.Zero, Color.White);
 
             restartButton.Draw(spriteBatch);
-
-            // Draw asteroids game
-
-            shipSprite.Draw(spriteBatch);
-            asteroidSprite.Draw(spriteBatch);
 
             // Draw Chase game
 

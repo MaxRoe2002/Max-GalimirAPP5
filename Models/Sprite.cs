@@ -48,6 +48,12 @@ namespace App05MonoGame.Models
 
         public bool IsActive { get; set; }
 
+        public float LifeSpan = 0f;
+
+        public float LinearVelocity = 4f;
+
+        public bool IsRemoved = false;
+
         public int Width
         {
             get { return Image.Width; }
@@ -110,10 +116,10 @@ namespace App05MonoGame.Models
         /// Constructor sets the main image and starting position of
         /// the Sprite as a Vector2
         /// </summary>
-        public Sprite(Texture2D image, int x, int y) : this()
+        public Sprite(Texture2D image)
         {
             Image = image;
-            Position = new Vector2(x, y);
+            Position = new Vector2(Image.Width / 2, Image.Height / 2);
         }
 
         public bool HasCollided(Sprite other)
