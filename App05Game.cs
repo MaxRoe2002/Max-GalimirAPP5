@@ -37,12 +37,13 @@ namespace App05MonoGame
         private SpriteFont calibriFont;
 
         private Texture2D backgroundImage;
-        private SoundEffect flameEffect;
 
         private readonly CoinsController coinsController;
 
         private AnimatedPlayer playerSprite;
         private AnimatedSprite enemySprite;
+        private AnimatedSprite enemySprite2;
+        private AnimatedSprite enemySprite3;
 
         private Button restartButton;
 
@@ -92,8 +93,6 @@ namespace App05MonoGame
             // Load Music and SoundEffects
 
             SoundController.LoadContent(Content);
-            SoundController.PlaySong("Adventure");
-            flameEffect = SoundController.GetSoundEffect("Flame");
 
             // Load Fonts
 
@@ -114,6 +113,9 @@ namespace App05MonoGame
 
             SetupAnimatedPlayer();
             SetupEnemy();
+            SetupEnemy2();
+            SetupEnemy3();
+
 
             Texture2D coinSheet = Content.Load<Texture2D>("Actors/coin_copper");
             coinsController.CreateCoin(graphicsDevice, coinSheet);
@@ -175,13 +177,69 @@ namespace App05MonoGame
 
                 Position = new Vector2(1000, 200),
                 Direction = new Vector2(-1, 0),
-                Speed = 50,
+                Speed = 200,
 
                 Rotation = MathHelper.ToRadians(0),
             };
 
             manager.AppendAnimationsTo(enemySprite);
             enemySprite.PlayAnimation("Left");
+        }
+        /// <summary>
+        /// This is an enemy Sprite with four animations for the four
+        /// directions, up, down, left and right.  Has no intelligence!
+        /// </summary>
+        private void SetupEnemy2()
+        {
+            Texture2D sheet4x3 = Content.Load<Texture2D>("Actors/rsc-sprite-sheet2");
+
+            AnimationController manager = new AnimationController(graphicsDevice, sheet4x3, 4, 3);
+
+            string[] keys = new string[] { "Down", "Left", "Right", "Up" };
+
+            manager.CreateAnimationGroup(keys);
+
+            enemySprite2 = new AnimatedSprite()
+            {
+                Scale = 2.0f,
+
+                Position = new Vector2(1000, 400),
+                Direction = new Vector2(-1, 0),
+                Speed = 150,
+
+                Rotation = MathHelper.ToRadians(0),
+            };
+
+            manager.AppendAnimationsTo(enemySprite2);
+            enemySprite2.PlayAnimation("Left");
+        }
+        /// <summary>
+        /// This is an enemy Sprite with four animations for the four
+        /// directions, up, down, left and right.  Has no intelligence!
+        /// </summary>
+        private void SetupEnemy3()
+        {
+            Texture2D sheet4x3 = Content.Load<Texture2D>("Actors/sprite-sheet1");
+
+            AnimationController manager = new AnimationController(graphicsDevice, sheet4x3, 4, 3);
+
+            string[] keys = new string[] { "Down", "Left", "Right", "Up" };
+
+            manager.CreateAnimationGroup(keys);
+
+            enemySprite3 = new AnimatedSprite()
+            {
+                Scale = 2.0f,
+
+                Position = new Vector2(1000, 600),
+                Direction = new Vector2(-1, 0),
+                Speed = 150,
+
+                Rotation = MathHelper.ToRadians(0),
+            };
+
+            manager.AppendAnimationsTo(enemySprite3);
+            enemySprite3.PlayAnimation("Left");
         }
 
 
@@ -202,16 +260,47 @@ namespace App05MonoGame
 
             playerSprite.Update(gameTime);
             enemySprite.Update(gameTime);
+            enemySprite2.Update(gameTime);
+            enemySprite3.Update(gameTime);
 
             if (playerSprite.HasCollided(enemySprite))
             {
                 playerSprite.IsActive = false;
                 playerSprite.IsAlive = false;
                 enemySprite.IsActive = false;
+                LoadContent();
+                score = 0;
             }
 
-            coinsController.Update(gameTime);
-            coinsController.HasCollided(playerSprite);
+            if (playerSprite.HasCollided(enemySprite2))
+            {
+                playerSprite.IsActive = false;
+                playerSprite.IsAlive = false;
+                enemySprite2.IsActive = false;
+                LoadContent();
+                score = 0;
+            }
+
+            if (playerSprite.HasCollided(enemySprite3))
+            {
+                playerSprite.IsActive = false;
+                playerSprite.IsAlive = false;
+                enemySprite3.IsActive = false;
+                LoadContent();
+                score = 0;
+            }
+
+            if (gameTime.TotalGameTime.Milliseconds % 2000 == 0)
+            {
+                score += 10;
+            }
+
+            if (gameTime.TotalGameTime.Seconds == 8)
+            {
+                SetupEnemy();
+                SetupEnemy2();
+                SetupEnemy3();
+            }
 
             base.Update(gameTime);
         }
@@ -236,6 +325,8 @@ namespace App05MonoGame
             playerSprite.Draw(spriteBatch);
             coinsController.Draw(spriteBatch);
             enemySprite.Draw(spriteBatch);
+            enemySprite2.Draw(spriteBatch);
+            enemySprite3.Draw(spriteBatch);
 
             DrawGameStatus(spriteBatch);
             DrawGameFooter(spriteBatch);
@@ -275,7 +366,7 @@ namespace App05MonoGame
         {
             int margin = 20;
 
-            string names = "Derek & Andrei";
+            string names = "Galimir and Max";
             string app = "App05: MonogGame";
             string module = "BNU CO453-2020";
 

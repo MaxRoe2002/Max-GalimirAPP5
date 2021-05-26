@@ -38,7 +38,7 @@ namespace App05MonoGame.Controllers
         /// </summary>
         public void CreateCoin(GraphicsDevice graphics, Texture2D coinSheet)
         {
-            coinEffect = SoundController.GetSoundEffect("Coin");
+            //coinEffect = SoundController.GetSoundEffect("Coin");
             Animation animation = new Animation("coin", coinSheet, 8);
 
             AnimatedSprite coin = new AnimatedSprite()

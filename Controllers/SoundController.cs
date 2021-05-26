@@ -25,21 +25,19 @@ namespace App05MonoGame.Controllers
         /// </summary>
         /// <param name="content"></param>
         public static void LoadContent(ContentManager content)
-        {
-            Songs.Add("Adventure",content.Load<Song>("Sounds/Adventures"));            
-
-            SoundEffects.Add("Coin", content.Load<SoundEffect>("Sounds/Coins"));
-            SoundEffects.Add("Flame", content.Load<SoundEffect>("Sounds/flame"));
+        {      
+            //SoundEffects.Add("Coin", content.Load<SoundEffect>("Sounds/Coins"));
+            //SoundEffects.Add("Flame", content.Load<SoundEffect>("Sounds/flame"));
         }
         /// <summary>
         /// Get a sound effect from the collection.
         /// </summary>
         /// <param name="effect">A string type key assigned to a sound effect.</param>
         /// <returns>A SoundEffect object assigned to the string key.</returns>
-        public static SoundEffect GetSoundEffect(string effect)
-        {
-            return SoundEffects[effect];
-        }
+        //public static SoundEffect GetSoundEffect(string effect)
+        //{
+            //return SoundEffects[effect];
+       // }
         /// <summary>
         /// Play a song
         /// </summary>
